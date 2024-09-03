@@ -1,6 +1,6 @@
 import time
 from datetime import datetime, timedelta
-from database.config import QUIZ_DURATION
+from database.config import Config
 from database import check_user, save_score, save_user, get_questions
 
 
@@ -52,7 +52,7 @@ def start_quiz():
     total = sum([question['points'] for question in questions])
     # start the timer
     start_time = datetime.now()
-    time_limit = timedelta(minutes=QUIZ_DURATION)
+    time_limit = timedelta(minutes=int(Config.QUIZ_DURATION))
     
     for question_number, question in enumerate(questions, start=1):
         current_time = datetime.now()
@@ -84,5 +84,7 @@ def start_quiz():
             print(f"Sorry {first_name} {last_name}! You did not pass the quiz.")
         print(f"\nYour final score is: {int(total_score)}% out of {total}%")
 
-start_quiz()
+
+if __name__ == "__main__":
+    start_quiz()
 
