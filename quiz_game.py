@@ -1,15 +1,7 @@
-def start_quiz():
-    print("\n Welcome to the Python Quiz Game!")
-    print("-----------------------------------------")
-    print(
-        "You will be asked multiple-choice questions. Answer by typing the letter corresponding to the correct answer."
-    )
-    first_name = input("Enter your first name: ").capitalize()
-    last_name = input("Enter your last name: ").capitalize()
-    print(f"Good luck! {first_name} {last_name} \n")
-    scores = []
-    total = 0
-    questions = [
+import time
+
+def get_questions():
+    return [
         {
             "question": "What is the output of print(2 * 3 ** 3)?",
             "options": {
@@ -91,7 +83,7 @@ def start_quiz():
                 "D": "0"
             },
             "correct": "B",
-            "explanation": "The logical OR operator returns True if at least one of the operands is True.",
+            "explanation": "`True` and `False` returns False because both conditions must be true for the AND operator to return true.",
             "points": 10
         },
         {
@@ -103,7 +95,7 @@ def start_quiz():
                 "D": "0"
             },
             "correct": "A",
-            "explanation": "The logical AND operator returns True only if both operands are True.",
+            "explanation": "`True` or `False` returns `True` because the OR operator only requires one condition to be true.",
             "points": 10
         },
         {
@@ -131,25 +123,61 @@ def start_quiz():
             "points": 10
         }
     ]
+def get_user_answer():
+    try:
+        user_answer = input("Enter your answer: ").upper()
+        accepted = ['A', 'B', 'C', 'D']
+        if user_answer not in accepted:
+            raise ValueError("Error! Your answer must be A, B, C or D")
+        return user_answer
+    except ValueError as e:
+        print(str(e))
+        return get_user_answer()
+
+
+def calculate_score(user_answer, question, scores):
+    if user_answer == question["correct"]:
+        print(f"Correct!")
+        print(f"Explanation. {question['explanation']}")
+        scores.append(question["points"])
+    else:
+        print(f"Wrong! The correct answer is {question['options'][question['correct']]}")
+        print(f"Explanation. {question['explanation']}")
+        scores.append(0)
+
+
+def start_quiz():
+    print("\n Welcome to the Python Quiz Game!")
+    print("-----------------------------------------")
+    print(
+        "You will be asked multiple-choice questions. Answer by typing the letter corresponding to the correct answer."
+    )
+    first_name = input("Enter your first name: ").capitalize()
+    last_name = input("Enter your last name: ").capitalize()
+    print(f"Good luck! {first_name} {last_name} \n")
+    scores = []
+    total = 0
+    questions = get_questions()
 
     for question_number, question in enumerate(questions, start=1):
         print(f"{question_number}. {question['question']}")
         for option, option_text in question["options"].items():
             print(f"{option}. {option_text}")
 
-        user_answer = input("Enter your answer: ").upper()
-        if user_answer == question["correct"]:
-            print("Correct!")
-            scores.append(question["points"])
-        else:
-            print(f"Wrong! The correct answer is {question['options'][question['correct']]}")
-            print(f"{question['explanation']}")
-            scores.append(0)
+        user_answer = get_user_answer()
         total += question["points"]
+        calculate_score(user_answer, question, scores)
+        time.sleep(1)
+
     score = sum(scores)
+    if total == 0:
+        print("You did not answer any questions.")
     total_score = (score/total * 100)
-    print('score', score)
-    print('scores', scores)
+    if total_score >= 50:
+        print(f"Congratulations {first_name} {last_name}! You passed the quiz.")
+    else:
+        print(f"Sorry {first_name} {last_name}! You did not pass the quiz.")
     print(f"\nYour final score is: {int(total_score)}% out of {total}%")
 
 start_quiz()
+
