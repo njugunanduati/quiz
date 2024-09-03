@@ -1,0 +1,88 @@
+CREATE TABLE questions (
+    id SERIAL PRIMARY KEY,
+    question TEXT NOT NULL,
+    option_a TEXT NOT NULL,
+    option_b TEXT NOT NULL,
+    option_c TEXT NOT NULL,
+    option_d TEXT NOT NULL,
+    correct CHAR(1) NOT NULL,
+    explanation TEXT,
+    points INT,
+    createdAt TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updatedAt TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    createdAt TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updatedAt TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE scores (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    score INT,
+    total INT,
+    quiz_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdAt TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updatedAt TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+
+INSERT INTO questions (question, option_a, option_b, option_c, option_d, correct, explanation, points)
+VALUES 
+--('What is the output of print(2 * 3 ** 3)?', '54', '18', '56', '36', 'A', '2 * 3 give an answer of 6. The ** represents power which is the same as 6^3 which comes to 54.', 10),
+    ('Which of the following is a built-in data type in Python that represents a sequence of characters?', 'list', 'dictionary', 'tuple', 'set', 'C', 'A tuple is a sequence of elements enclosed in parentheses, separated by commas. It is a built-in data type in Python.', 10),
+    ('What is the output of print(type(`Hello World!`))?', 'str', 'int', 'float', 'boolean', 'A', 'The str() function converts any data type to a string.', 10),
+    ('What is the output of print(10 % 3)?', '0', '1', '2', '3', 'B', 'The % operator returns the remainder of the division of the first operand by the second operand.', 10),
+    ('What is the output of print(10 // 3)?', '3', '4', '5', '6', 'A', 'The // operator performs integer division of the first operand by the second operand, and the result is always an integer.', 10),
+    ('Which of the following is a valid variable name in Python?', 'my_variable', 'my-variable', 'my variable', '1my_variable', 'A', 'A valid variable name in Python can only contain alphanumeric characters and underscores, and it cannot start with a number.', 10),
+    ('What is the output of print(True and False)?', 'True', 'False', '1', '0', 'B', '`True` and `False` returns False because both conditions must be true for the AND operator to return true.', 10),
+    ('What is the output of print(True or False)?', 'True', 'False', '1', '0', 'A', '`True` or `False` returns `True` because the OR operator only requires one condition to be true.', 10),
+    ('What is enumerate used for in a for loop?', 'To iterate over a list', 'To iterate over a dictionary', 'To iterate over a range', 'To iterate over a string', 'A', 'Enumerate is a built-in function in Python that returns an enumerate object that produces a sequence of tuples containing a count (from start which defaults to 0) and the values obtained from iterating over an iterable.', 10),
+    ('Which of the following is a built-in function in Python that returns the largest item in an iterable?', 'max()', 'min()', 'sum()', 'average()', 'A', 'max() returns the largest item in an iterable or the largest of two or more arguments.', 10),
+    ('What is the output of print(10 ** 2)?', '100', '20', '200', '102', 'A', 'The ** operator represents exponentiation, so 10 ** 2 equals 100.', 10),
+    ('Which of the following is a mutable data type in Python?', 'list', 'tuple', 'string', 'frozenset', 'A', 'Lists are mutable, meaning their elements can be changed.', 10),
+    ('What is the output of print(len([1, 2, 3, 4]))?', '3', '4', '5', '6', 'B', 'The len() function returns the number of items in an object. In this case, the list has 4 elements.', 10),
+    ('What does the break statement do in a loop?', 'Continues to the next iteration', 'Exits the loop', 'Skips the current iteration', 'Returns to the start of the loop', 'B', 'The break statement immediately exits the loop.', 10),
+    ('Which of the following functions is used to convert a string to lowercase?', 'upper()', 'lower()', 'capitalize()', 'title()', 'B', 'The lower() function converts all characters in a string to lowercase.', 10),
+    ('Which operator is used to check if two values are equal?', '=', '==', '!=', '<>', 'B', 'The == operator is used to check if two values are equal.', 10),
+    ('What is the output of print(bool(0))?', 'True', 'False', '0', 'None', 'B', 'The bool() function returns False for the integer 0.', 10),
+    ('Which of the following keywords is used to define a function in Python?', 'def', 'function', 'define', 'lambda', 'A', 'The def keyword is used to define a function in Python.', 10),
+    ('Which of the following methods can be used to remove an item from a list?', 'remove()', 'delete()', 'discard()', 'pop()', 'A', 'The remove() method removes the first occurrence of a specified value from a list.', 10),
+    ('What is the output of print(3 + 4 * 2)?', '14', '11', '10', '7', 'B', 'The multiplication operation has higher precedence than addition, so 4 * 2 is evaluated first.', 10),
+    ('Which of the following is not a valid Python data type?', 'integer', 'float', 'double', 'string', 'C', 'Python does not have a double data type; instead, it uses float for floating-point numbers.', 10),
+    ('What is the output of print(2 ** 3 ** 2)?', '64', '512', '256', '19683', 'B', 'Exponentiation is evaluated from right to left, so 3 ** 2 is evaluated first, resulting in 9. Then 2 ** 9 is evaluated, which is 512.', 10),
+    ('Which of the following is not a keyword in Python?', 'global', 'nonlocal', 'static', 'assert', 'C', 'static is not a keyword in Python.', 10),
+    ('Which method is used to add an element to the end of a list?', 'append()', 'insert()', 'extend()', 'add()', 'A', 'The append() method adds an element to the end of a list.', 10),
+    ('What is the output of print(type([]))?', 'list', 'tuple', 'dictionary', 'set', 'A', 'The type() function returns the type of the object passed to it. In this case, [] represents a list.', 10),
+    ('What is the output of print(3 // 2)?', '1.5', '1', '2', '0', 'B', 'The // operator performs integer division, so 3 // 2 equals 1.', 10),
+    ('Which of the following methods sorts a list in place?', 'sort()', 'sorted()', 'order()', 'arrange()', 'A', 'The sort() method sorts a list in place.', 10),
+    ('Which keyword is used to create a generator in Python?', 'yield', 'return', 'generate', 'function', 'A', 'The yield keyword is used to create a generator in Python.', 10),
+    ('What is the output of print(3 == 3.0)?', 'True', 'False', 'TypeError', 'SyntaxError', 'A', '3 and 3.0 are considered equal in Python because of type coercion.', 10),
+    ('Which of the following is the correct syntax for a lambda function?', 'lambda x: x + 1', 'lambda x: (x + 1)', 'lambda x: return x + 1', 'lambda (x): x + 1', 'A', 'The correct syntax for a lambda function is lambda x: x + 1.', 10),
+    ('What does the pass statement do in Python?', 'Exits the loop', 'Returns to the start of the loop', 'Does nothing', 'Continues to the next iteration', 'C', 'The pass statement is a null operation; nothing happens when it is executed.', 10),
+    ('Which of the following is not a Python built-in function?', 'len()', 'print()', 'map()', 'index()', 'D', 'index() is not a Python built-in function.', 10),
+    ('What is the output of print("Hello " + "World!")?', 'Hello World!', 'Hello', 'World!', 'Error', 'A', 'The + operator is used for string concatenation in Python.', 10),
+    ('What is the output of print("Python"[1:4])?', 'yth', 'Pyt', 'tho', 'ytho', 'A', 'The slice notation [1:4] extracts characters from index 1 to 3 (not including 4), so the output is "yth".', 10),
+    ('Which of the following operators is used for floor division in Python?', '/', '//', '%', '**', 'B', 'The // operator is used for floor division, which returns the largest integer less than or equal to the result.', 10),
+    ('Which of the following is a valid set in Python?', '{1, 2, 3}', '[1, 2, 3]', '(1, 2, 3)', '{1: 2, 3: 4}', 'A', 'A set is defined by curly braces with elements separated by commas.', 10),
+    ('Which of the following is not a valid dictionary method?', 'get()', 'keys()', 'values()', 'push()', 'D', 'push() is not a valid dictionary method.', 10),
+    ('What is the output of print(len("Hello"))?', '4', '5', '6', '7', 'B', 'The len() function returns the number of characters in the string, including spaces.', 10),
+    ('What is the output of print(5 and 0)?', '0', '5', 'False', 'True', 'A', 'The and operator returns the first falsy value, so 5 and 0 returns 0.', 10),
+    ('Which of the following is used to create a new empty dictionary?', '{}', '[]', '()', '{:}', 'A', 'An empty dictionary is created using {}.', 10),
+    ('What is the output of print("Python".upper())?', 'PYTHON', 'python', 'Python', 'Error', 'A', 'The upper() method converts all characters in the string to uppercase.', 10),
+    ('Which of the following is not a valid list method?', 'append()', 'insert()', 'extend()', 'map()', 'D', 'map() is not a list method.', 10),
+    ('What is the output of print(list("Hello"))?', '["H", "e", "l", "l", "o"]', '["Hello"]', '["H"]', '["H", "e"]', 'A', 'The list() function converts a string into a list of its characters.', 10),
+    ('Which of the following keywords is used to define an anonymous function in Python?', 'lambda', 'def', 'function', 'class', 'A', 'The lambda keyword is used to define anonymous functions in Python.', 10),
+    ('What is the output of print(type(lambda x: x + 1))?', 'function', 'lambda', 'method', 'class', 'A', 'The type() function returns function for a lambda expression.', 10),
+    ('Which of the following is not a valid method for string objects?', 'lower()', 'strip()', 'split()', 'push()', 'D', 'push() is not a valid method for string objects.', 10),
+    ('What is the output of print(2 == 2.0)?', 'True', 'False', 'TypeError', 'SyntaxError', 'A', '2 and 2.0 are considered equal in Python because of type coercion.', 10),
+    ('What is the output of print(4 / 2)?', '2.0', '2', 'TypeError', 'SyntaxError', 'A', 'The / operator performs division and returns a floating-point number.', 10),
+    ('Which of the following is not a valid Python comparison operator?', '>=', '<=', '==', '===', 'D', 'Python uses == for equality comparison, not ===.', 10),
+    ('What is the output of print(type({}))?', 'dict', 'list', 'set', 'tuple', 'A', 'An empty set of curly braces {} is a dictionary in Python.', 10),
+    ('Which of the following functions is used to read a line from a file in Python?', 'readline()', 'read()', 'readlines()', 'readall()', 'A', 'The readline() function reads a single line from a file.', 10),
+    ('Which of the following methods is used to remove whitespace from both ends of a string?', 'strip()', 'trim()', 'lstrip()', 'rstrip()', 'A', 'The strip() method removes whitespace from both ends of a string.', 10);
