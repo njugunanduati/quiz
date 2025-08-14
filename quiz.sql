@@ -1,16 +1,15 @@
 CREATE TABLE questions (
     id SERIAL PRIMARY KEY,
     question TEXT NOT NULL,
-    option_a TEXT NOT NULL,
-    option_b TEXT NOT NULL,
-    option_c TEXT NOT NULL,
-    option_d TEXT NOT NULL,
+    options TEXT[] NOT NULL
     correct CHAR(1) NOT NULL,
     explanation TEXT,
     points INT,
     createdAt TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updatedAt TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+alter table questions add column options text[]
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,

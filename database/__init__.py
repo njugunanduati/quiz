@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from .models import User, Question, Score
 
 engine = create_engine(Config.DATABASE_URL)
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
 
 
@@ -16,17 +16,16 @@ def get_questions():
         questions.append({
             "id": row.id,
             "question": row.question,
-            "options": {
-                "A": row.option_a,
-                "B": row.option_b,
-                "C": row.option_c,
-                "D": row.option_d
-            },
+            "options": format_options(row.options),
             "correct": row.correct,
             "explanation": row.explanation,
             "points": row.points
         })
     return questions
+
+def format_options(options):
+    choices = ['A','B', 'C', 'D', 'E', 'F']
+    return {choices[i]: option for i, option in enumerate(options)}
 
 
 def check_user(email):

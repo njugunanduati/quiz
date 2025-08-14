@@ -77,12 +77,12 @@ def start_quiz():
     if total == 0:
         print("You did not answer any questions.")
     else:
-        total_score = (score/total * 100)
+        total_score = (score/total) * 100
         if total_score >= 50:
             print(f"Congratulations {first_name} {last_name}! You passed the quiz.")
         else:
             print(f"Sorry {first_name} {last_name}! You did not pass the quiz.")
-        print(f"\nYour final score is: {int(total_score)}% out of {total}%")
+        print(f"\nYour final score is: {int(total_score)}% out of 100%")
 
 
 if __name__ == "__main__":

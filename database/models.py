@@ -1,4 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy import Column, Integer, String, DateTime
 
 Base = declarative_base()
@@ -15,10 +16,7 @@ class Question(Base):
     __tablename__ = 'questions'
     id = Column(Integer, primary_key=True)
     question = Column(String)
-    option_a = Column(String)
-    option_b = Column(String)
-    option_c = Column(String) 
-    option_d = Column(String) 
+    options = Column(ARRAY(String),nullable=False)
     correct = Column(String)
     explanation = Column(String)
     points = Column(Integer)
