@@ -1,7 +1,7 @@
 import time
 from datetime import datetime, timedelta
-from database.config import Config
-from database import check_user, save_score, save_user, get_questions
+from dbase.config import Config
+from dbase import check_user, save_score, save_user, get_questions
 
 
 def get_user_answer():
