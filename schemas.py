@@ -43,4 +43,4 @@ class QuestionCreate(BaseModel):
     explanation: str
     points: int
     class Config:
-        orm_mode = True
+        from_attributes = True

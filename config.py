@@ -18,3 +18,5 @@ class Config:
     ALGORITHM = os.getenv("ALGORITHM")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     JWT_REFRESH_SECRET_KEY = os.getenv("JWT_REFRESH_SECRET_KEY")
+    DEV_FRONT_END_URL= os.getenv("DEV_FRONT_END_URL")
+    PROD_FRONT_END_URL= os.getenv("PROD_FRONT_END_URL")

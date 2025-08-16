@@ -2,6 +2,7 @@ import os
 from typing import Union
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.middleware.cors import CORSMiddleware
 from auth_bearer import JWTBearer
 from functools import wraps
 from utils import create_access_token,create_refresh_token,verify_password,get_hashed_password
@@ -10,6 +11,7 @@ import schemas
 from models import User, TokenTable, Question
 from database import Base, engine, SessionLocal
 from utils import get_hashed_password
+from config import Config
 # from pydantic import BaseModel
 # import psycopg2
 # import json
@@ -39,6 +41,21 @@ def get_session():
         session.close()
 
 app = FastAPI()
+
+# Define the origins that are allowed to make requests
+origins = [
+    Config.DEV_FRONT_END_URL,
+    Config.PROD_FRONT_END_URL
+]
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allow specific origins
+    allow_credentials=True,  # Allow cookies and credentials
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 
 @app.get('/api/v1/')
@@ -113,7 +130,8 @@ def change_password(request: schemas.changepassword, db: Session = Depends(get_s
 
 
 @app.get('/api/v1/questions')
-def get_questions(dependencies=Depends(JWTBearer()), session: Session = Depends(get_session)):
+# def get_questions(dependencies=Depends(JWTBearer()), session: Session = Depends(get_session)):
+def get_questions(session: Session = Depends(get_session)):
     # Fetch questions from the database
     # Return them in a paginated format
     questions = session.query(Question).all()
